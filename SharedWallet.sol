@@ -1,7 +1,7 @@
 pragma solidity 0.8.7;
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol";
 
-contract SharedWallet is Ownable {
+contract Allowance is Ownable {
     function isOwner() internal view returns(bool) {
         return owner() == msg.sender;
     }
@@ -21,6 +21,10 @@ contract SharedWallet is Ownable {
         allowance[_who] -= _amount;
         
     }
+}
+
+contract SharedWallet is Allowance {
+    
 
     function withdrawMoney(address payable _to, uint _amount) public ownerOrAllowed(_amount) {
         require(_amount <= address(this).balance, "Contract doesn't own enough money");
